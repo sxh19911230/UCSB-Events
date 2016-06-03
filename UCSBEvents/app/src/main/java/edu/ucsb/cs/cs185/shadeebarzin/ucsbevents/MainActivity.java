@@ -1,8 +1,11 @@
 package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int REQUEST_LOGIN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Start the Signup activity
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
+
+
     }
+
+
 
     @Override
     public void onBackPressed() {
