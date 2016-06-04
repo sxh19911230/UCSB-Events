@@ -143,6 +143,11 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, REQUEST_LOGIN);
     }
 
+    public void ucsbeventSignup(View view) {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
+    }
+
     public void googlemap(View view) {
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         startActivityForResult(intent, REQUEST_GOOGLE_MAP);
