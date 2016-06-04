@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -113,7 +116,11 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         SendRequest sendRequest = new SendRequest();
-        sendRequest.execute("activity=register&user_name="+username+"&user_password="+password+"&email_address="+email+"&shown_name="+name);
+        try {
+            sendRequest.execute("activity=register&user_name="+ URLEncoder.encode(username, "utf-8")+"&user_password="+URLEncoder.encode(password, "utf-8")+"&email_address="+URLEncoder.encode(email, "utf-8")+"&shown_name="+URLEncoder.encode(name, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

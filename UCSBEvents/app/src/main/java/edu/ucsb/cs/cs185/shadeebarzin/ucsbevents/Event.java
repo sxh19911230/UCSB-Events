@@ -6,12 +6,20 @@ import java.util.Date;
  * Created by Forrest on 2016/6/1.
  */
 public class Event {
-    int eid;
-    int uid;
-    String title;
-    Date date;
-    String description;
-    //Location location; //Google map ?
-    String Host_Org;
-    int category;
+    private int eid;
+    private int uid;
+    private String title;
+    private Date date;
+    private String description;
+    private String Hostor;
+    //Category
+    //TODO Need some Category attributes
+
+    //TODO OTHER attributes?
+
+    //Location. Don't edit these three line
+    private String locationName;
+    private Double latitude;
+    private Double longitude;
+
 }

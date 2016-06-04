@@ -42,54 +42,12 @@ public class User {
      @return shownname
      */
     public String getShownname(){return this.shownname;}
+
+    public int getID() {
+        return id;
+    }
     /**
      @return id
      */
-    public int getID(){return this.id;}
-    /**
-     @param password the password the user wishes to be used
-     @throws SQLException throws exception if password could not be set
-     */
-    public void setPassword(String password) throws SQLException{
-        this.password=password;
-        CS185Connector.setPassword(id, password);
-    }
-    /**
-     @param email the email the user wishes to be used
-     @throws SQLException throws exception if email could not be set
-     */
-    public void setEmail(String email) throws SQLException{
-        this.email=email;
-        CS185Connector.setEmail(id, email);
-    }
-    /**
-     @param shownname the shown name the user wishes to be used
-     @throws SQLException throws exception if shown name could not be set
-     */
-    public void setShownname(String shownname) throws SQLException{
-        this.shownname=shownname;
-        CS185Connector.setShownName(id, shownname);
-    }
-    /**
-     Adds event to by this user
-     @param e The event to be added
-     @throws SQLException throws exception if event could not be added
-     */
-    public void addEvent(Event e) throws SQLException {
-        CS185Connector.saveEvent(this, e);
-    }
-    /**
-     @return an ArrayList of all the events that belong to a user
-     @throws SQLException throws exception if Schedule could not be retrieved
-     */
-    public ArrayList<Event> getSchedule() throws SQLException {
-        return CS185Connector.getUserEvents(this);
-    }
-    /**
-     Deletes all events that belong to a user
-     @throws SQLException throws exception if schedule could not be deleted
-     */
-    public void deleteSchedule() throws SQLException {
-        CS185Connector.deleteUserEvents(this);
-    }
+
 }

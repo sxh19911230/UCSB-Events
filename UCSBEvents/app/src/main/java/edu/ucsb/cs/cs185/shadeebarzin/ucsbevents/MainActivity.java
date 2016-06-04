@@ -26,7 +26,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_LOGIN = 0;
-    private static final int REQUEST_GOOGLE_MAP = 1;
+    private static final int REQUEST_SIGNUP = 1;
+    private static final int REQUEST_GOOGLE_MAP = 2;
+
+    private User user = null;
 
 
     @Override
@@ -53,11 +56,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        /* Start the login page for test
-        ucsbeventslogin();
-        */
 
 
     }
@@ -125,6 +123,18 @@ public class MainActivity extends AppCompatActivity
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
         MultiDex.install(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_LOGIN || requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+                user = new User(data.getIntExtra("id", -1), data.getStringExtra("username"), data.getStringExtra("password"), data.getStringExtra("email"), data.getStringExtra("name"));
+
+            } else if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
     }
 
 
