@@ -4,7 +4,10 @@ package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
  * Created by Forrest on 2016/6/2.
  */
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,12 +27,15 @@ public class SignupActivity extends AppCompatActivity {
     Button _signupButton;
     TextView _loginLink;
 
+    User u = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        _username= (EditText) findViewById(R.id.imput_username);
+        _username= (EditText) findViewById(R.id.input_username);
+        _nameText = (EditText) findViewById(R.id.input_name);
         _emailText= (EditText) findViewById(R.id.input_email);
         _passwordText=(EditText) findViewById(R.id.input_password);
         _signupButton=(Button) findViewById(R.id.btn_signup);
@@ -67,19 +73,49 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
+        String username = _username.getText().toString();
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
+        class SendRequest extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                String t = CS185Connector.sendRequest(params[0]);
+
+                return t;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if (result.compareTo("FAILED") != 0) {
+                    String[] user = result.split(" ");
+                    if (result.compareTo("Error:") != 0)
+                        u = new User(Integer.parseInt(user[0]),user[1],user[2],user[3],user[4]);
+
+                    else
+                        Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        SendRequest sendRequest = new SendRequest();
+        sendRequest.execute("activity=register&user_name="+username+"&user_password="+password+"&email_address="+email+"&shown_name="+name);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
+                        if (u != null) {
+                            onSignupSuccess();
+                        } else {
+                            onSignupFailed();
+                        }
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -88,12 +124,18 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("id", u.getID());
+        resultIntent.putExtra("username", u.getUsername());
+        resultIntent.putExtra("name", u.getShownname());
+        resultIntent.putExtra("email", u.getEmail());
+        resultIntent.putExtra("password", u.getPassword());
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
 
         _signupButton.setEnabled(true);
     }
@@ -101,12 +143,20 @@ public class SignupActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
+        String username = _username.getText().toString();
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+        if (username.isEmpty()) {
+            _username.setError("enter a valid username");
+            valid = false;
+        } else {
+            _nameText.setError(null);
+        }
+
+        if (name.isEmpty()) {
+            _nameText.setError("enter a valid name");
             valid = false;
         } else {
             _nameText.setError(null);
@@ -119,8 +169,8 @@ public class SignupActivity extends AppCompatActivity {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty()) {
+            _passwordText.setError("enter a valid password");
             valid = false;
         } else {
             _passwordText.setError(null);

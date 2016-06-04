@@ -51,9 +51,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        // Start the Signup activity
+        /* Start the login page for test
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
+        */
 
 
     }

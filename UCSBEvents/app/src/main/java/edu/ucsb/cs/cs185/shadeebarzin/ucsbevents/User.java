@@ -13,13 +13,13 @@ public class User {
     private String email;
     private String shownname;
     /**
+     * @param id Id
      * @param u  username
      * @param p  password
      * @param e  email
      * @param s  shownname
-     * @param id Id
      */
-    User(String u, String p, String e, String s, int id){
+    User(int id, String u, String p, String e, String s){
         username=u;
         password=p;
         email=e;

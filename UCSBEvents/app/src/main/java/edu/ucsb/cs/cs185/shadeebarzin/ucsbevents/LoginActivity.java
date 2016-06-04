@@ -2,6 +2,7 @@ package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,13 +23,14 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     Button _loginButton;
     TextView _signupLink;
+    User u = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        _username=(EditText) findViewById(R.id.imput_username);
+        _username=(EditText) findViewById(R.id.input_username);
         _passwordText=(EditText) findViewById(R.id.input_password);
         _loginButton=(Button) findViewById(R.id.btn_login);
         _signupLink=(TextView) findViewById(R.id.link_signup);
@@ -71,14 +73,37 @@ public class LoginActivity extends AppCompatActivity {
         String username = _username.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        class SendRequest extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                String t = CS185Connector.sendRequest(params[0]);
+
+                return t;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if (result.compareTo("FAILED") != 0) {
+                    String[] user = result.split(" ");
+                    u = new User(Integer.parseInt(user[0]),user[1],user[2],user[3],user[4]);
+                }
+
+            }
+        }
+
+        SendRequest sendRequest = new SendRequest();
+        sendRequest.execute("activity=login&user_name=" + username + "&user_password=" + password);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                        if (u != null) {
+                            onLoginSuccess();
+
+                        } else {
+                            onLoginFailed();
+                        }
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -89,9 +114,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("id", data.getIntExtra("id",-1));
+                resultIntent.putExtra("username", data.getStringExtra("username"));
+                resultIntent.putExtra("name", data.getStringExtra("name"));
+                resultIntent.putExtra("email", data.getStringExtra("email"));
+                resultIntent.putExtra("password", data.getStringExtra("password"));
+                setResult(RESULT_OK, resultIntent);
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
         }
@@ -105,11 +135,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("id", u.getID());
+        resultIntent.putExtra("username", u.getUsername());
+        resultIntent.putExtra("name", u.getShownname());
+        resultIntent.putExtra("email", u.getEmail());
+        resultIntent.putExtra("password", u.getPassword());
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
 
         _loginButton.setEnabled(true);
     }
@@ -131,6 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             _passwordText.setError("enter a valid password");
             valid = false;
         } else {
+
             _passwordText.setError(null);
         }
 
