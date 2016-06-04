@@ -25,6 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText _emailText;
     EditText _passwordText;
     Button _signupButton;
+    Button _cancelButton;
     TextView _loginLink;
 
     User u = null;
@@ -39,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
         _emailText= (EditText) findViewById(R.id.input_email);
         _passwordText=(EditText) findViewById(R.id.input_password);
         _signupButton=(Button) findViewById(R.id.btn_signup);
+        _cancelButton=(Button) findViewById(R.id.btn_cancel);
         _loginLink=(TextView) findViewById(R.id.link_login);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +54,13 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
+                finish();
+            }
+        });
+        _cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public  void onClick(View v){
+                setResult(RESULT_CANCELED, null);
                 finish();
             }
         });

@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText _username;
     EditText _passwordText;
     Button _loginButton;
+    Button _cancelButton;
     TextView _signupLink;
     User u = null;
 
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         _username=(EditText) findViewById(R.id.input_username);
         _passwordText=(EditText) findViewById(R.id.input_password);
         _loginButton=(Button) findViewById(R.id.btn_login);
+        _cancelButton=(Button) findViewById(R.id.btn_cancel);
         _signupLink=(TextView) findViewById(R.id.link_signup);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+
+        _cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+        public  void onClick(View v){
+                setResult(RESULT_CANCELED, null);
+                finish();
             }
         });
 
@@ -123,6 +133,9 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(RESULT_OK, resultIntent);
 
                 this.finish();
+            } else if (resultCode == RESULT_CANCELED) {
+                setResult(RESULT_CANCELED, null);
+                finish();
             }
         }
     }

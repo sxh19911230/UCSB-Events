@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_LOGIN = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +53,7 @@ public class MainActivity extends AppCompatActivity
 
 
         /* Start the login page for test
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+        ucsbeventslogin();
         */
 
 
@@ -116,5 +116,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void ucsbeventlogin(View view) {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 }
