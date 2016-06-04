@@ -1,10 +1,12 @@
 package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_LOGIN = 0;
+    private static final int REQUEST_GOOGLE_MAP = 1;
 
 
     @Override
@@ -118,9 +121,20 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        MultiDex.install(this);
+    }
+
 
     public void ucsbeventlogin(View view) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
+    }
+
+    public void googlemap(View view) {
+        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        startActivityForResult(intent, REQUEST_GOOGLE_MAP);
     }
 }
