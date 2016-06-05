@@ -6,4 +6,21 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+    <string name="logout">Logout</string>
+    <string name="my_events">My Events</string>
+    <string name="profile">Profile</string>
+    <string name="event_categories">Event Categories</string>
+    <string name="my_account">My Account</string>
+    <string name="search">Search UCSB Events</string>
+    <string name="help">Help</string>
+    <string name="login">Login</string>
+    <string name="list_view">List View</string>
+    <string name="map_view">Map View</string>
+    <string name="ok" />
+    <string name="clicked_help">To create an event, you must first create an account and log in.\n\n
+        You can do this by clicking the 3 vertical buttons in the top right corner of the screen and selecting "Login".\n\n
+        Then, click the \'plus\' sign on the bottom right corner of your device\'s screen.\n\n
+        To change between a list view and map view of the events, click on one of the two buttons at the top of your screen.\n\n
+        To filter events by category type, open the navigation drawer (top left button) and select the category you want.\n\n
+        To view your starred events, open the navigation drawer (top left button) and select "My Events".</string>
 </resources>

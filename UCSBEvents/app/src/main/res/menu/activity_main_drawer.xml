@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
+    <item android:title="@string/event_categories">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/all"
+                    android:icon="@drawable/ic_list"
+                    android:title="All" />
+                <item
+                    android:id="@+id/club_meetings"
+                    android:icon="@drawable/ic_people"
+                    android:title="Club Meetings" />
+                <item
+                    android:id="@+id/concerts"
+                    android:icon="@drawable/ic_headphones"
+                    android:title="Concerts" />
+                <item
+                    android:id="@+id/fundraisers"
+                    android:icon="@drawable/ic_envelope"
+                    android:title="Fundraisers" />
+                <item
+                    android:id="@+id/movies"
+                    android:icon="@drawable/ic_video_camera"
+                    android:title="Movies" />
+            </group>
+        </menu>
+    </item>
 
-    <item android:title="Communicate">
+    <item android:title="@string/my_account">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/my_events"
+                android:icon="@drawable/ic_star"
+                android:title="@string/my_events" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/my_help"
+                android:icon="@drawable/ic_question"
+                android:title="@string/help" />
         </menu>
     </item>
 

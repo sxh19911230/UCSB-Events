@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -30,7 +29,9 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_GOOGLE_MAP = 2;
 
     private User user = null;
+    private boolean loggedIn = false;
 
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +40,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "New Event Clicked", Snackbar.LENGTH_LONG)
+                        .setAction("New Event", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,8 +61,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -76,6 +76,23 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem login = menu.findItem(R.id.action_login);
+        MenuItem logout = menu.findItem(R.id.action_logout);
+
+        if (loggedIn){
+            login.setVisible(false);
+            logout.setVisible(true);
+        }
+        else {
+            login.setVisible(true);
+            logout.setVisible(false);
+        }
         return true;
     }
 
@@ -86,9 +103,20 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_list_view) {
+
+        } else if (id == R.id.action_map_view) {
+            googlemap();
+        }
+        else if (id == R.id.action_login) {
+            ucsbeventlogin();
+            loggedIn = true;
+            fab.setVisibility(View.VISIBLE);
+        } else if (id == R.id.action_logout) {
+            ucsbeventlogout();
+        } else if (id == R.id.action_help){
+            HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
+            helpDialogFragment.show(getFragmentManager(), "help clicked");
         }
 
         return super.onOptionsItemSelected(item);
@@ -100,18 +128,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.all) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.club_meetings) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.concerts) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.fundraisers) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.movies) {
 
+        } else if (id == R.id.my_events) {
+
+        } else if (id == R.id.my_help) {
+            HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
+            helpDialogFragment.show(getFragmentManager(), "help clicked");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -138,9 +169,21 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void ucsbeventlogin() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
+    }
+
     public void ucsbeventlogin(View view) {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivityForResult(intent, REQUEST_LOGIN);
+    }
+
+    public void ucsbeventlogout(){
+        user = null;
+        Toast.makeText(this, "Successfully logged out.", Toast.LENGTH_SHORT).show();
+        loggedIn = false;
+        fab.setVisibility(View.GONE);
     }
 
     public void ucsbeventSignup(View view) {
@@ -149,6 +192,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void googlemap(View view) {
+        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        startActivityForResult(intent, REQUEST_GOOGLE_MAP);
+    }
+
+    public void googlemap() {
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         startActivityForResult(intent, REQUEST_GOOGLE_MAP);
     }
