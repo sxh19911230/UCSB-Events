@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 1;
+    private static final int RESULT_LOGIN = 565;
 
     EditText _username;
     EditText _passwordText;
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme);
+                R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -136,6 +137,8 @@ public class LoginActivity extends AppCompatActivity {
             } else if (resultCode == RESULT_CANCELED) {
                 setResult(RESULT_CANCELED, null);
                 finish();
+            } else if (resultCode == RESULT_LOGIN) {
+
             }
         }
     }

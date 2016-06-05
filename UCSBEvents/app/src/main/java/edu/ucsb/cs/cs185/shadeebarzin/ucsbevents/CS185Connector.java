@@ -28,6 +28,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import javax.net.ssl.HttpsURLConnection;
 
 
@@ -132,40 +139,13 @@ public class CS185Connector {
 
         return u;
     }
-    /**
-     * update password
-     * @param ID User ID number
-     * @param pw new Password
-     * @throws SQLException throws exception if connection fails
-     */
-    public static void setPassword(int ID, String pw) throws SQLException {
 
-    }
-    /**
-     * update email
-     * @param ID User ID number
-     * @param email new Email
-     * @throws SQLException throws exception if connection fails
-     */
-    public static void setEmail(int ID, String email) throws SQLException {
-
-    }
-    /**
-     * update shown name
-     * @param ID User ID number
-     * @param mj new Email
-     * @throws SQLException throws exception if connection fails
-     */
-    public static void setShownName(int ID, String mj) throws SQLException  {
-
-    }
     /**
      * Save the User Data
-     * @param u User
      * @param e Event to be added
      * @throws SQLException throws exception if event could not be saved
      */
-    public static void saveEvent(User u, Event e) throws SQLException {
+    public static void saveEvent(Event e) throws SQLException {
 
     }
     /**
@@ -184,9 +164,9 @@ public class CS185Connector {
      */
     public static ArrayList<Event> getUserEvents(User u) throws SQLException {
 
-        ArrayList<Event> ca = new ArrayList<Event>();
+        ArrayList<Event> events = new ArrayList<Event>();
 
-        return ca;
+        return events;
     }
     /**
      * delete entire schedule
@@ -196,6 +176,5 @@ public class CS185Connector {
     public static void deleteUserEvents(User u) throws SQLException {
 
     }
-
 
 }

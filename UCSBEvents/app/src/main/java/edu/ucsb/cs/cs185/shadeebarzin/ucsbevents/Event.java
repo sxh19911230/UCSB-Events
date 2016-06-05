@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -19,5 +20,57 @@ public class Event {
 
     private String eventHost;
     private String category;
+
+    public Event(int eid,int uid, String eventTitle,Date eventDate, String eventDescription, String locationName, Double latitude, Double longitude, String eventHost, String category) {
+        this.eid = eid;
+        this.uid = uid;
+        this.eventTitle = eventTitle;
+        this.eventDate = eventDate;
+        this.eventDescription = eventDescription;
+        this.locationName = locationName;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.eventHost = eventHost;
+        this.category = category;
+    }
+
+    public int getEid() {
+        return eid;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public String getEventTitle() {
+        return eventTitle;
+    }
+    public Date getEventDate() {
+        return eventDate;
+    }
+    public String getEventDescription() {
+        return eventDescription;
+    }
+    public String getLocationName() {
+        return locationName;
+    }
+    public Double getLatitude() {
+        return latitude;
+    }
+    public Double getLongitude() {
+        return longitude;
+    }
+    public String getEventHost() {
+        return eventHost;
+    }
+    public String getCategory() {
+        return category;
+    }
+
+    public static ArrayList<Event> getEvents() {
+        ArrayList<Event> events = null;
+
+        return events;
+    }
 
 }
