@@ -105,6 +105,36 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/enter_location"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:onClick="setLocation"
+                android:textSize="30dp"
+                android:clickable="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setLocation"
+                android:text="Set Location"
+                android:id="@+id/btn_location" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spin_cato"
+            android:spinnerMode="dropdown"
+            android:textSize="30sp"/>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_submit"
             android:layout_width="fill_parent"

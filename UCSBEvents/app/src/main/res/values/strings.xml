@@ -23,4 +23,13 @@
         To change between a list view and map view of the events, click on one of the two buttons at the top of your screen.\n\n
         To filter events by category type, open the navigation drawer (top left button) and select the category you want.\n\n
         To view your starred events, open the navigation drawer (top left button) and select "My Events".</string>
+
+    <string-array name="category">
+        <item>-- CATEGORY --</item>
+        <item>Club Meetings</item>
+        <item>Concerts</item>
+        <item>Fundraisers</item>
+        <item>Movies</item>
+    </string-array>
+    <string name="title_activity_get_location">Map</string>
 </resources>

@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_LOGIN = 0;
     private static final int REQUEST_SIGNUP = 1;
     private static final int REQUEST_GOOGLE_MAP = 2;
+    private static final int REQUEST_EVENT = 3;
 
     private User user = null;
     private boolean loggedIn = false;
 
     private FloatingActionButton fab;
 
-    ArrayList<Event> events = null;
+    private ArrayList<Event> events = null;
+    private boolean createEventAfterLogin;
 
 
     @Override
@@ -53,8 +55,11 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user == null) ucsbeventlogin();
-                createEvent();
+                if (user == null) {
+                    createEventAfterLogin = true;
+                    ucsbeventlogin();
+                }
+                else createEvent();
             }
         });
 
@@ -68,10 +73,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         refreshEvents();
-
-
-
-
 
     }
 
@@ -176,11 +177,14 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 user = new User(data.getIntExtra("id", -1), data.getStringExtra("username"), data.getStringExtra("password"), data.getStringExtra("email"), data.getStringExtra("name"));
                 loggedIn = true;
-                fab.setVisibility(View.VISIBLE);
+                if (createEventAfterLogin) createEvent();
+                createEventAfterLogin = false;
 
             } else if (resultCode == RESULT_CANCELED) {
 
             }
+        } else if (requestCode == REQUEST_EVENT) {
+            refreshEvents();
         }
     }
 
@@ -195,7 +199,6 @@ public class MainActivity extends AppCompatActivity
         user = null;
         Toast.makeText(this, "Successfully logged out.", Toast.LENGTH_SHORT).show();
         loggedIn = false;
-        fab.setVisibility(View.GONE);
     }
 
 
@@ -217,6 +220,7 @@ public class MainActivity extends AppCompatActivity
         class SendRequest extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
+                Log.d("ceshi",params[0]);
                 String t = CS185Connector.sendRequest(params[0]);
 
                 return t;
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity
                 super.onPostExecute(result);
                 String [] ra = result.split("\\n");
 
-                for (int i = 0; i < ra.length/10; i+=10) {
+                for (int i = 1; i < ra.length/10; i+=10) {
                     String testDate = ra[i + 3];
                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = null;
@@ -263,7 +267,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), EventCreateAcitvity.class);
             intent.putExtra("uid", user.getID());
             intent.putExtra("name", user.getShownname());
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_EVENT);
         }
     }
 }
