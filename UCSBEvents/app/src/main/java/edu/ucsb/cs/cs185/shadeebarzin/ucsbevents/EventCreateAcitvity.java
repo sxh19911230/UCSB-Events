@@ -3,6 +3,7 @@ package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,8 +40,9 @@ public class EventCreateAcitvity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_create_acitvity);
 
-        uid = savedInstanceState.getInt("uid");
-        name = savedInstanceState.getString("name");
+        Intent intent = getIntent();
+        uid = intent.getExtras().getInt("uid");
+        name = intent.getExtras().getString("name");
 
         title = (EditText) findViewById(R.id.input_title);
         description = (EditText) findViewById(R.id.input_event_description);
