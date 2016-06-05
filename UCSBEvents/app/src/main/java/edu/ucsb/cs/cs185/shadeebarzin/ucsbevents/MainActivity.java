@@ -229,9 +229,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                String [] ra = result.split("\\n");
+                String [] ra = result.split("\n");
 
-                for (int i = 1; i < ra.length/10; i+=10) {
+                for (int i = 1; i < ra.length-1; i+=10) {
                     String testDate = ra[i + 3];
                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = null;
@@ -241,7 +241,9 @@ public class MainActivity extends AppCompatActivity
                         throw new RuntimeException(e);
                     }
 
-                    events.add(new Event(Integer.parseInt(ra[i]), Integer.parseInt(ra[i + 1]), ra[i + 2], date, ra[i + 4], ra[i + 5], Double.parseDouble(ra[i + 6]), Double.parseDouble(ra[i + 7]), ra[i + 8], ra[i + 9]));
+                    Event t = new Event(Integer.parseInt(ra[i]), Integer.parseInt(ra[i + 1]), ra[i + 2], date, ra[i + 4], ra[i + 5], Double.parseDouble(ra[i + 6]), Double.parseDouble(ra[i + 7]), ra[i + 8], ra[i + 9]);
+                    Log.d("ceshi2",t.toString());
+                    events.add(t);
 
 
                 }

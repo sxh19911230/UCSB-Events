@@ -63,14 +63,25 @@ public class Event {
     public String getEventHost() {
         return eventHost;
     }
-    public String getCategory() {
-        return category;
-    }
+    public String getCategory() { return category;}
 
-    public static ArrayList<Event> getEvents() {
-        ArrayList<Event> events = null;
 
-        return events;
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(eid);
+        sb.append(' ');
+        sb.append(uid);
+        sb.append(' ');
+        sb.append(eventTitle);
+        sb.append(' ');
+        sb.append(eventDate);
+        sb.append(' ');
+        sb.append(eventDescription);
+        sb.append(' ');
+        sb.append(locationName);
+        sb.append(' ');
+
+        return sb.toString();
     }
 
 }
