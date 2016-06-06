@@ -62,12 +62,11 @@ public class MainActivity extends AppCompatActivity
                 if (user == null) {
                     createEventAfterLogin = true;
                     ucsbeventlogin();
-                }
-                else {
+                } else {
                     createEvent();
                     System.out.println("\n\n\n\n\n\nCREATED EVENT\n\n\n\n\n\n\n\n\n");
                     refreshEvents();
-                    eventAdapter.resetEventList(MainActivity.this, events);
+
                 }
             }
         });
@@ -208,7 +207,7 @@ public class MainActivity extends AppCompatActivity
                 if (createEventAfterLogin){
                     createEvent();
                     refreshEvents();
-                    eventAdapter.resetEventList(MainActivity.this, events);
+                    //eventAdapter.resetEventList(MainActivity.this, events);
                 }
                 createEventAfterLogin = false;
 
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (requestCode == REQUEST_EVENT) {
             refreshEvents();
-            eventAdapter.resetEventList(events);
+            //eventAdapter.resetEventList(events);
         }
     }
 
@@ -290,8 +289,10 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     Event t = new Event(Integer.parseInt(ra[i]), Integer.parseInt(ra[i + 1]), ra[i + 2], date, ra[i + 4], ra[i + 5], Double.parseDouble(ra[i + 6]), Double.parseDouble(ra[i + 7]), ra[i + 8], ra[i + 9]);
-                    Log.d("ceshi2",t.toString());
+                    Log.d("ceshi2", t.toString());
                     events.add(t);
+
+                    eventAdapter.resetEventList(MainActivity.this, events);
 
 
                 }
