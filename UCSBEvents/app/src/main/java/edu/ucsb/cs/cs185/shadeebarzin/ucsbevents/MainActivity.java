@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else {
                     createEvent();
+                    System.out.println("\n\n\n\n\n\nCREATED EVENT\n\n\n\n\n\n\n\n\n");
                     refreshEvents();
                     eventAdapter.resetEventList(MainActivity.this, events);
                 }
@@ -204,7 +205,11 @@ public class MainActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 user = new User(data.getIntExtra("id", -1), data.getStringExtra("username"), data.getStringExtra("password"), data.getStringExtra("email"), data.getStringExtra("name"));
                 loggedIn = true;
-                if (createEventAfterLogin) createEvent();
+                if (createEventAfterLogin){
+                    createEvent();
+                    refreshEvents();
+                    eventAdapter.resetEventList(MainActivity.this, events);
+                }
                 createEventAfterLogin = false;
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -212,6 +217,7 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (requestCode == REQUEST_EVENT) {
             refreshEvents();
+            eventAdapter.resetEventList(events);
         }
     }
 

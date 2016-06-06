@@ -49,6 +49,10 @@ public class EventCreateAcitvity extends AppCompatActivity {
     double latitude;
     double longitude;
 
+    Button btn_date;
+    Button btn_time;
+    Button btn_location;
+
     Button submitButton;
     Button cancelButton;
 
@@ -68,7 +72,7 @@ public class EventCreateAcitvity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.input_event_description);
         host = (EditText) findViewById(R.id.input_host);
 
-        tvlocation = (TextView) findViewById(R.id.enter_location);
+//        tvlocation = (TextView) findViewById(R.id.enter_location);
 
         host.setText(name);
 
@@ -81,7 +85,7 @@ public class EventCreateAcitvity extends AppCompatActivity {
         timeOutput = timeFormat.format(date);
 
 
-        tvdate = (TextView) findViewById(R.id.enter_date);
+//        tvdate = (TextView) findViewById(R.id.enter_date);
         dp = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -90,30 +94,36 @@ public class EventCreateAcitvity extends AppCompatActivity {
                 date.setMonth(monthOfYear);
                 date.setDate(dayOfMonth);
                 dateOutput = dateFormat.format(date);
-                tvdate.setText(dateOutput);
+                btn_date.setText(dateOutput);
+//                tvdate.setText(dateOutput);
             }
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
 
-        tvtime = (TextView) findViewById(R.id.enter_time);
+//        tvtime = (TextView) findViewById(R.id.enter_time);
         tp = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 date.setHours(hourOfDay);
                 date.setMinutes(minute);
                 timeOutput = ""+hourOfDay+':'+minute;
-                tvtime.setText(timeOutput);
+//                tvtime.setText(timeOutput);
+                btn_time.setText(timeOutput);
             }
         },newCalendar.HOUR_OF_DAY,newCalendar.MINUTE,true);
 
 
-        tvdate.setText(dateOutput);
-        tvtime.setText(timeOutput);
+//        tvdate.setText(dateOutput);
+//        tvtime.setText(timeOutput);
 
         adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner = (Spinner)findViewById(R.id.spin_cato);
         spinner.setAdapter(adapter);
+
+        btn_date = (Button) findViewById(R.id.btn_date);
+        btn_time = (Button) findViewById(R.id.btn_time);
+        btn_location = (Button) findViewById(R.id.btn_location);
 
         submitButton = (Button) findViewById(R.id.btn_submit);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
@@ -170,7 +180,8 @@ public class EventCreateAcitvity extends AppCompatActivity {
                 sb.append("&event_description=");
                 sb.append(URLEncoder.encode(description.getText().toString(), "utf-8"));
                 sb.append("&location_name=");
-                sb.append(URLEncoder.encode(tvlocation.getText().toString(), "utf-8"));
+                sb.append(URLEncoder.encode(btn_location.getText().toString(), "utf-8"));
+//                sb.append(URLEncoder.encode(tvlocation.getText().toString(), "utf-8"));
                 sb.append("&latitude=");
                 sb.append(latitude);
                 sb.append("&longitude=");
@@ -238,7 +249,8 @@ public class EventCreateAcitvity extends AppCompatActivity {
         String d = description.getText().toString();
         String h = host.getText().toString();
 
-        String l = tvlocation.getText().toString();
+//        String l = tvlocation.getText().toString();
+        String l = btn_location.getText().toString();
 
         if (t.isEmpty() ) {
             title.setError("enter a valid title");
@@ -263,7 +275,8 @@ public class EventCreateAcitvity extends AppCompatActivity {
         }
 
         if (l.isEmpty()) {
-            tvlocation.setError("Please select a location");
+            btn_location.setError("Please select a location");
+//            tvlocation.setError("Please select a location");
             valid = false;
         } else {
             host.setError(null);
@@ -276,7 +289,9 @@ public class EventCreateAcitvity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LOCATION) {
             if (resultCode == RESULT_OK) {
-                tvlocation.setText(data.getStringExtra("location"));
+
+                btn_location.setText(data.getStringExtra("location"));
+//                tvlocation.setText(data.getStringExtra("location"));
                 latitude = data.getDoubleExtra("latitude",0.0);
                 longitude = data.getDoubleExtra("longitude",0.0);
 

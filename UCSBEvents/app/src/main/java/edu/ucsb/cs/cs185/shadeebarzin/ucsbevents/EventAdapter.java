@@ -71,6 +71,11 @@ public class EventAdapter extends BaseAdapter {
         return convertView;
     }
 
+    void resetEventList(ArrayList<Event> eventList){
+        this.eventList = eventList;
+        notifyDataSetChanged();
+    }
+
     void resetEventList(Context context, ArrayList<Event> eventList){
         this.context = context;
         this.eventList = eventList;
