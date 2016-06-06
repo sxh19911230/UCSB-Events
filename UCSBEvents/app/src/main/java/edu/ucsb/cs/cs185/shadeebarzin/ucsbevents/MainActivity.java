@@ -204,6 +204,21 @@ public class MainActivity extends AppCompatActivity
 
     public void googlemap() {
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        int s = events.size();
+        String[] title = new String[s];
+        double[] latitude = new double[s];
+        double[] longitude = new double[s];
+
+        for (int i = 0; i < s; i++) {
+            title[i] = events.get(i).getEventTitle();
+            latitude[i] = events.get(i).getLatitude();
+            longitude[i] = events.get(i).getLongitude();
+        }
+
+        intent.putExtra("title",title);
+        intent.putExtra("latitude",latitude);
+        intent.putExtra("longitude",longitude);
+
         startActivityForResult(intent, REQUEST_GOOGLE_MAP);
     }
 

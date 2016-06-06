@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs185.shadeebarzin.ucsbevents;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -13,6 +14,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    String[] title;
+    double[] latitude;
+    double[] longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent i = getIntent();
+
+        title= i.getStringArrayExtra("title");
+        latitude = i.getDoubleArrayExtra("latitude");
+        longitude = i.getDoubleArrayExtra("longitude");
     }
 
 
@@ -39,8 +49,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         LatLng ucsb = new LatLng(34.4133491,-119.8472604);
-        mMap.addMarker(new MarkerOptions().position(ucsb).title("Marker in UCSB"));
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ucsb, 16.0f));
+
+        for (int i = 0; i < title.length; i++) {
+
+            LatLng t = new LatLng(latitude[i],longitude[i]);
+            mMap.addMarker(new MarkerOptions().position(t).title(title[i]));
+
+        }
 
 
 

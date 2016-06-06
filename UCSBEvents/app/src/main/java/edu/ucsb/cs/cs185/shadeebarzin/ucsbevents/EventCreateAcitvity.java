@@ -180,7 +180,7 @@ public class EventCreateAcitvity extends AppCompatActivity {
                 sb.append("&category=");
 
                 if (spinner.getSelectedItem().toString().equals("-- CATEGORY --"))
-                    sb.append("All");
+                    sb.append(URLEncoder.encode("NULL","utf-8"));
                 else sb.append(URLEncoder.encode(spinner.getSelectedItem().toString(),"utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
