@@ -79,8 +79,8 @@ public class EventCreateAcitvity extends AppCompatActivity {
         date = new Date();
 
         Calendar newCalendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat( "MMMM dd, yyyy", Locale.US );
-        SimpleDateFormat timeFormat = new SimpleDateFormat( "HH:mm", Locale.US );
+        final SimpleDateFormat dateFormat = new SimpleDateFormat( "MMMM dd, yyyy", Locale.US );
+        final SimpleDateFormat timeFormat = new SimpleDateFormat( "HH:mm", Locale.US );
         dateOutput = dateFormat.format(date);
         timeOutput = timeFormat.format(date);
 
@@ -89,7 +89,6 @@ public class EventCreateAcitvity extends AppCompatActivity {
         dp = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat( "MMMM dd, yyyy", Locale.US );
                 date.setYear(year-1900);
                 date.setMonth(monthOfYear);
                 date.setDate(dayOfMonth);
@@ -106,11 +105,11 @@ public class EventCreateAcitvity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 date.setHours(hourOfDay);
                 date.setMinutes(minute);
-                timeOutput = ""+hourOfDay+':'+minute;
+                timeOutput = timeFormat.format(date);
 //                tvtime.setText(timeOutput);
                 btn_time.setText(timeOutput);
             }
-        },newCalendar.HOUR_OF_DAY,newCalendar.MINUTE,true);
+        },date.getHours(),date.getMinutes(),true);
 
 
 //        tvdate.setText(dateOutput);
@@ -190,8 +189,8 @@ public class EventCreateAcitvity extends AppCompatActivity {
                 sb.append(host.getText().toString());
                 sb.append("&category=");
 
-                if (spinner.getSelectedItem().toString().equals("-- CATEGORY --"))
-                    sb.append(URLEncoder.encode("NULL","utf-8"));
+                if (spinner.getSelectedItem().toString().equals("-- SET CATEGORY --"))
+                    sb.append(URLEncoder.encode("NONE","utf-8"));
                 else sb.append(URLEncoder.encode(spinner.getSelectedItem().toString(),"utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
