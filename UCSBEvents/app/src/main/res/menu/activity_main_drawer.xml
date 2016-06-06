@@ -24,6 +24,14 @@
                     android:id="@+id/movies"
                     android:icon="@drawable/ic_video_camera"
                     android:title="Movies" />
+                <item
+                    android:id="@+id/sports"
+                    android:icon="@drawable/ic_thumbs_up"
+                    android:title="Sports" />
+                <item
+                    android:id="@+id/study_groups"
+                    android:icon="@drawable/ic_pencil"
+                    android:title="Study Groups" />
             </group>
         </menu>
     </item>

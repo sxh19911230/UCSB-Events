@@ -11,7 +11,5 @@ import java.util.ArrayList;
 public class ListActivity extends MainActivity {
 
     private ArrayList<Event> events;
-
     
-
 }

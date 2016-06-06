@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Event> events = null;
     private boolean createEventAfterLogin;
 
+    EventAdapter eventAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,11 @@ public class MainActivity extends AppCompatActivity
                     createEventAfterLogin = true;
                     ucsbeventlogin();
                 }
-                else createEvent();
+                else {
+                    createEvent();
+                    refreshEvents();
+                    eventAdapter.resetEventList(MainActivity.this, events);
+                }
             }
         });
 
@@ -74,6 +82,27 @@ public class MainActivity extends AppCompatActivity
 
         refreshEvents();
 
+        // set the list view for the events
+        ListView listView = (ListView) findViewById(R.id.listView);
+        eventAdapter = new EventAdapter(this, events);
+        listView.setAdapter(eventAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventDialogFragment eventDialogFragment = new EventDialogFragment();
+                Event e = (Event) eventAdapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", e.getEventTitle());
+                bundle.putString("date", e.getEventDateWords());
+                bundle.putString("time", e.getEventTimeString());
+                bundle.putString("host", e.getEventHost());
+                bundle.putString("location", e.getLocationName());
+                bundle.putString("descrip", e.getEventDescription());
+                bundle.putString("category", e.getCategory());
+                eventDialogFragment.setArguments(bundle);
+                eventDialogFragment.show(getFragmentManager(), "event clicked");
+            }
+        });
     }
 
     @Override
@@ -117,9 +146,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_list_view) {
-
-        } else if (id == R.id.action_map_view) {
+        if (id == R.id.action_map_view) {
             googlemap();
         }
         else if (id == R.id.action_login) {
@@ -131,7 +158,7 @@ public class MainActivity extends AppCompatActivity
             ucsbeventlogout();
         } else if (id == R.id.action_help){
             HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
-            helpDialogFragment.show(getFragmentManager(), "help clicked");
+            helpDialogFragment.show(getFragmentManager(), "help_clicked");
         }
 
         return super.onOptionsItemSelected(item);
@@ -157,7 +184,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.my_help) {
             HelpDialogFragment helpDialogFragment = new HelpDialogFragment();
-            helpDialogFragment.show(getFragmentManager(), "help clicked");
+            helpDialogFragment.show(getFragmentManager(), "help_clicked");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -248,7 +275,7 @@ public class MainActivity extends AppCompatActivity
 
                 for (int i = 1; i < ra.length-1; i+=10) {
                     String testDate = ra[i + 3];
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
                     Date date = null;
                     try {
                         date = formatter.parse(testDate);
@@ -287,4 +314,16 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, REQUEST_EVENT);
         }
     }
-}
+
+    ArrayList<Event> hardCodeEvents(){
+        ArrayList<Event> e = new ArrayList<>();
+        Event event1 = new Event(1, 100, "Study Group", new Date(), "Let's go to cs 185 together!", "Phelps Hall", 34.4161, -119.845, "shadee", "Study");
+        Event event2 = new Event(2, 200, "Baseball Game", new Date(), "UCSB vs Cal Poly", "Stadium", 34.419, -119.852, "Sports", "Sports");
+        e.add(event1);
+        e.add(event2);
+        return e;
+    }
+
+
+
+}//mainactivity

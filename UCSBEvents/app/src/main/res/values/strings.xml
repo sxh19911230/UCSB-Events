@@ -25,11 +25,15 @@
         To view your starred events, open the navigation drawer (top left button) and select "My Events".</string>
 
     <string-array name="category">
-        <item>-- CATEGORY --</item>
+        <item>-- SET CATEGORY --</item>
         <item>Club Meetings</item>
         <item>Concerts</item>
         <item>Fundraisers</item>
         <item>Movies</item>
+        <item>Sports</item>
+        <item>Study</item>
     </string-array>
     <string name="title_activity_get_location">Map</string>
+    <string name="date_format" formatted="false">%s %d, %d</string>
+    <string name="clicked_event">clicked event</string>
 </resources>

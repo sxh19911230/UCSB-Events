@@ -72,7 +72,7 @@ public class EventCreateAcitvity extends AppCompatActivity {
 
         host.setText(name);
 
-        date=new Date();
+        date = new Date();
 
         Calendar newCalendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat( "MMMM dd, yyyy", Locale.US );
