@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -95,7 +96,12 @@ public class SignupActivity extends AppCompatActivity {
         class SendRequest extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
-                String t = CS185Connector.sendRequest(params[0]);
+                String t;
+                try {
+                    t = CS185Connector.sendRequest(params[0]);
+                } catch (IOException e) {
+                    t = "Connect Error";
+                }
 
                 return t;
             }
@@ -103,7 +109,9 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                if (result.compareTo("FAILED") != 0) {
+                if (result.equals("Connect Error")) Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+
+                else if (result.compareTo("FAILED") != 0) {
                     String[] user = result.split(" ");
                     if (result.compareTo("Error:") != 0)
                         u = new User(Integer.parseInt(user[0]),user[1],user[2],user[3],user[4]);

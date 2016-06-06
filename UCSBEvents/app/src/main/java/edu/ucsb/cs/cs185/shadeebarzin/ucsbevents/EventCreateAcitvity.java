@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -204,7 +205,12 @@ public class EventCreateAcitvity extends AppCompatActivity {
             class SendRequest extends AsyncTask<String, Void, String> {
                 @Override
                 protected String doInBackground(String... params) {
-                    String t = CS185Connector.sendRequest(params[0]);
+                    String t = null;
+                    try {
+                        t = CS185Connector.sendRequest(params[0]);
+                    } catch (IOException e) {
+                        t = "Connection Error";
+                    }
 
                     return t;
                 }

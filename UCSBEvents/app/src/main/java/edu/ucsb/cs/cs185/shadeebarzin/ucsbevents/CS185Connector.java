@@ -46,15 +46,13 @@ public class CS185Connector {
     static String url = "http://184.189.236.125:8080/request.php";
     static String charset = "UTF-8";
 
-    public static String sendRequest(String query)  {
+    public static String sendRequest(String query) throws IOException {
 
         InputStream response;
         String responseBody = null;
-        try {
-            response = new URL(url + "?" + query).openStream();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        response = new URL(url + "?" + query).openStream();
+
         try (Scanner scanner = new Scanner(response)) {
             responseBody = scanner.useDelimiter("\\A").next();
         }

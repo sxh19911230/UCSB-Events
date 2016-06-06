@@ -247,9 +247,9 @@ public class MainActivity extends AppCompatActivity
             longitude[i] = events.get(i).getLongitude();
         }
 
-        intent.putExtra("title",title);
+        intent.putExtra("title", title);
         intent.putExtra("latitude",latitude);
-        intent.putExtra("longitude",longitude);
+        intent.putExtra("longitude", longitude);
 
         startActivityForResult(intent, REQUEST_GOOGLE_MAP);
     }
@@ -268,7 +268,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected String doInBackground(String... params) {
                 Log.d("ceshi",params[0]);
-                String t = CS185Connector.sendRequest(params[0]);
+                String t;
+                try {
+                    t = CS185Connector.sendRequest(params[0]);
+                } catch (IOException e) {
+                    t = "Connection Error";
+                }
 
                 return t;
             }
@@ -276,25 +281,28 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                String [] ra = result.split("\n");
+                if (!result.equals("Connection Error")) {
+                    String[] ra = result.split("\n");
 
-                for (int i = 1; i < ra.length-1; i+=10) {
-                    String testDate = ra[i + 3];
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                    Date date = null;
-                    try {
-                        date = formatter.parse(testDate);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                    for (int i = 1; i < ra.length - 1; i += 10) {
+                        String testDate = ra[i + 3];
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                        Date date = null;
+                        try {
+                            date = formatter.parse(testDate);
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        Event t = new Event(Integer.parseInt(ra[i]), Integer.parseInt(ra[i + 1]), ra[i + 2], date, ra[i + 4], ra[i + 5], Double.parseDouble(ra[i + 6]), Double.parseDouble(ra[i + 7]), ra[i + 8], ra[i + 9]);
+                        Log.d("ceshi2", t.toString());
+                        events.add(t);
+
+                        eventAdapter.resetEventList(MainActivity.this, events);
                     }
 
-                    Event t = new Event(Integer.parseInt(ra[i]), Integer.parseInt(ra[i + 1]), ra[i + 2], date, ra[i + 4], ra[i + 5], Double.parseDouble(ra[i + 6]), Double.parseDouble(ra[i + 7]), ra[i + 8], ra[i + 9]);
-                    Log.d("ceshi2", t.toString());
-                    events.add(t);
-
-                    eventAdapter.resetEventList(MainActivity.this, events);
-
-
+                } else {
+                    Toast.makeText(MainActivity.this,result,Toast.LENGTH_SHORT);
                 }
 
             }

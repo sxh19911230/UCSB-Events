@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -87,15 +89,25 @@ public class LoginActivity extends AppCompatActivity {
         class SendRequest extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
-                String t = CS185Connector.sendRequest(params[0]);
 
+
+                String t;
+                try {
+                    t = CS185Connector.sendRequest(params[0]);
+                } catch (IOException e) {
+                    t = "Connection Error";
+                }
                 return t;
             }
 
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                if (result.compareTo("FAILED") != 0) {
+                if (result.equals("FAILED")) {
+                    Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_SHORT).show();
+                } else if (result.equals("Connection Error")) {
+                    Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT).show();
+                } else {
                     String[] user = result.split(" ");
                     u = new User(Integer.parseInt(user[0]),user[1],user[2],user[3],user[4]);
                 }
@@ -113,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                             onLoginSuccess();
 
                         } else {
-                            onLoginFailed();
+                            _loginButton.setEnabled(true);
                         }
                         progressDialog.dismiss();
                     }
