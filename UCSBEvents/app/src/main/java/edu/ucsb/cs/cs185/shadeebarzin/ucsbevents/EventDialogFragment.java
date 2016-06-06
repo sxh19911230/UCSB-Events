@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 
 /**
  * Created by shadeebarzin on 6/5/16.
@@ -31,14 +32,15 @@ public class EventDialogFragment extends DialogFragment {
         eventDescription = getArguments().getString("descrip");
         eventCategory = getArguments().getString("category");
 
-        String toDisplay = "Title: " + eventTitle + "\n\n" +
-                "Date: " + eventDate + "\n\n" +
-                "Time: " + eventTime + "\n\n" +
-                "Location: " + eventLocation + "\n\n" +
-                "Description: " + eventDescription + "\n\n" +
-                "Category: " + eventCategory + "\n";
+        String toDisplay = "<html><b>Title: </b>" + eventTitle + "<br>" +
+                "<b>Date: </b>" + eventDate + "<br>" +
+                "<b>Time: </b>" + eventTime + "<br>" +
+                "<b>Host: </b>" + eventHost + "<br>" +
+                "<b>Location: </b>" + eventLocation + "<br>" +
+                "<b>Description: </b>" + eventDescription + "<br>" +
+                "<b>Category: </b>" + eventCategory;
 
-        builder.setMessage(toDisplay)
+        builder.setMessage(Html.fromHtml(toDisplay))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
