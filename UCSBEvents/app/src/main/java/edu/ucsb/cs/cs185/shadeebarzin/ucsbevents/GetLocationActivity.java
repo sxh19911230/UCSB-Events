@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -81,12 +82,19 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Address address = addressList.get(0);
-            latitude = address.getLatitude();
-            longitude = address.getLongitude();
-            LatLng l = new LatLng(latitude, longitude);
-            mMap.addMarker(new MarkerOptions().position(l).title(location));
-            confirm.setEnabled(true);
+            if (addressList.size() != 0) {
+                Address address = addressList.get(0);
+                latitude = address.getLatitude();
+                longitude = address.getLongitude();
+                LatLng l = new LatLng(latitude, longitude);
+                mMap.addMarker(new MarkerOptions().position(l).title(location));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(l, 16.0f));
+                confirm.setEnabled(true);
+            } else {
+                Toast.makeText(this,"Can't find such place, please try again",Toast.LENGTH_SHORT).show();
+                confirm.setEnabled(false);
+
+            }
         }
     }
 
