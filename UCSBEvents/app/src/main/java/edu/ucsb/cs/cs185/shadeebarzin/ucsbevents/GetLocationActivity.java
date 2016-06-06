@@ -71,6 +71,7 @@ public class GetLocationActivity extends FragmentActivity implements OnMapReadyC
 
 
     public void search(View view) {
+        mMap.clear();
         location = etsearch.getText().toString();
         List<Address> addressList = null;
         if (location != null && !location.equals("")) {
