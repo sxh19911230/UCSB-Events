@@ -32,12 +32,12 @@ public class EventDialogFragment extends DialogFragment {
         eventDescription = getArguments().getString("descrip");
         eventCategory = getArguments().getString("category");
 
-        String toDisplay = "<html><b>Title: </b>" + eventTitle + "<br>" +
-                "<b>Date: </b>" + eventDate + "<br>" +
-                "<b>Time: </b>" + eventTime + "<br>" +
-                "<b>Host: </b>" + eventHost + "<br>" +
-                "<b>Location: </b>" + eventLocation + "<br>" +
-                "<b>Description: </b>" + eventDescription + "<br>" +
+        String toDisplay = "<html><b>Title: </b>" + eventTitle + "<br><br>" +
+                "<b>Date: </b>" + eventDate + "<br><br>" +
+                "<b>Time: </b>" + eventTime + "<br><br>" +
+                "<b>Host: </b>" + eventHost + "<br><br>" +
+                "<b>Location: </b>" + eventLocation + "<br><br>" +
+                "<b>Description: </b>" + eventDescription + "<br><br>" +
                 "<b>Category: </b>" + eventCategory;
 
         builder.setMessage(Html.fromHtml(toDisplay))
